@@ -14,7 +14,7 @@ export default function renderMain({
   unregister('#storybook-root');
   const rootElement = document.getElementById('storybook-root');
   rootElement.innerHTML = '';
-  rootElement.dataset.is = 'root';
+  rootElement.dataset.is = 'storybook-root';
   const element = storyFn();
   const rendered = renderRiot(element);
   if (!rendered) {

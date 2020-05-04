@@ -18,7 +18,7 @@ const context = {
 
 beforeEach(() => {
   unregister('#storybook-root');
-  rootElement.dataset.is = 'root';
+  rootElement.dataset.is = 'storybook-root';
 });
 
 describe('render a riot element', () => {
@@ -35,9 +35,9 @@ describe('render a riot element', () => {
   });
 
   it('can work with raw code', () => {
-    expect(render("riot.tag2('root', '<div>raw code</div>', '', '', () => {})", context)).toBe(
-      true
-    );
+    expect(
+      render("riot.tag2('storybook-root', '<div>raw code</div>', '', '', () => {})", context)
+    ).toBe(true);
 
     expect(rootElement.innerHTML).toEqual('<div>raw code</div>');
   });

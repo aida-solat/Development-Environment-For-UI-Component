@@ -14,7 +14,7 @@ function guessRootName(stringified) {
         Math.min(firstWhitespace, stringified.indexOf('>'))
       );
   const matchingBuiltInTag = document.createElement(supposedName).constructor.name;
-  return matchingBuiltInTag === 'HTMLUnknownElement' ? supposedName : 'root';
+  return matchingBuiltInTag === 'HTMLUnknownElement' ? supposedName : 'storybook-root';
 }
 
 function compileText(code, rootName) {
@@ -24,7 +24,9 @@ function compileText(code, rootName) {
     code.substring(0, sourceCodeEndOfHtml).replace(/[\n\r\s]+/g, ' ') +
     code.substring(sourceCodeEndOfHtml);
   const sourceCode =
-    rootName === 'root' ? `<root>${sourceCodeReformatted}</root>` : sourceCodeReformatted;
+    rootName === 'storybook-root'
+      ? `<storybook-root>${sourceCodeReformatted}</storybook-root>`
+      : sourceCodeReformatted;
   return compiler.compile(sourceCode, {}).replace(alreadyCompiledMarker, '').trim();
 }
 
@@ -43,7 +45,7 @@ export default function renderStringified({
     unregister(rootName);
     eval(getRidOfRiotNoise(`${compiled}`)); // eslint-disable-line no-eval
   });
-  const sourceCode = compiler.compile(`<root>${template}</root>`, {});
+  const sourceCode = compiler.compile(`<storybook-root>${template}</storybook-root>`, {});
 
   let final;
   if (tagConstructor) {
@@ -52,7 +54,7 @@ export default function renderStringified({
     final = sourceCode;
   }
 
-  if (template !== '<root/>') {
+  if (template !== '<storybook-root/>') {
     eval(getRidOfRiotNoise(final)); // eslint-disable-line no-eval
   }
 
