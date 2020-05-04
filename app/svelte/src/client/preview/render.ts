@@ -102,7 +102,7 @@ export default function render({ storyFn, kind, name, showMain, showError }: Ren
     return;
   }
 
-  const target = document.getElementById('root');
+  const target = document.getElementById('storybook-root');
 
   target.innerHTML = '';
 

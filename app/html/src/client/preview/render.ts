@@ -2,7 +2,7 @@ import { document, Node } from 'global';
 import dedent from 'ts-dedent';
 import { RenderContext } from './types';
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById('storybook-root');
 
 export default function renderMain({
   storyFn,

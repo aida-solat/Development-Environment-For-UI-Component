@@ -460,7 +460,7 @@ To configure a11y now, you have to specify configuration using `addParameters`.
 ```js
 addParameters({
   a11y: {
-    element: "#root",
+    element: "#storybook-root",
     config: {},
     options: {},
     manual: true,

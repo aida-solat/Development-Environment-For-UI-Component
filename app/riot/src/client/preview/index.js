@@ -20,6 +20,6 @@ const framework = 'riot';
 export const storiesOf = (...args) => clientApi.storiesOf(...args).addParameters({ framework });
 export const configure = (...args) => coreConfigure(...args, framework);
 
-const mount = vendorMount.bind(riot, '#root');
+const mount = vendorMount.bind(riot, '#storybook-root');
 const compileNow = unboundCompileNow.bind(null, tag2);
 export { forceReRender, render, tag2 as tag, mount, compileNow, asCompiledCode };

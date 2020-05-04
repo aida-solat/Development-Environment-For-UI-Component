@@ -175,7 +175,7 @@ export class StoryRenderer {
       default:
         if (previousMetadata && (storyChanged || viewModeChanged)) {
           this.storyStore.cleanHooks(previousMetadata.id);
-          ReactDOM.unmountComponentAtNode(document.getElementById('root'));
+          ReactDOM.unmountComponentAtNode(document.getElementById('storybook-root'));
         }
     }
 
@@ -252,13 +252,13 @@ export class StoryRenderer {
   }
 
   showDocs() {
-    document.getElementById('root').setAttribute('hidden', 'true');
+    document.getElementById('storybook-root').setAttribute('hidden', 'true');
     document.getElementById('docs-root').removeAttribute('hidden');
   }
 
   showStory() {
     document.getElementById('docs-root').setAttribute('hidden', 'true');
-    document.getElementById('root').removeAttribute('hidden');
+    document.getElementById('storybook-root').removeAttribute('hidden');
   }
 
   renderStory({ context, context: { id, getDecorated } }: { context: RenderContext }) {

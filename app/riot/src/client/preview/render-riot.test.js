@@ -5,7 +5,7 @@ import { render } from './rendering';
 import { asCompiledCode } from './compileStageFunctions';
 
 const rootElement = document.createElement('div');
-rootElement.id = 'root';
+rootElement.id = 'storybook-root';
 document.body = document.createElement('body');
 document.body.appendChild(rootElement);
 
@@ -17,7 +17,7 @@ const context = {
 };
 
 beforeEach(() => {
-  unregister('#root');
+  unregister('#storybook-root');
   rootElement.dataset.is = 'root';
 });
 

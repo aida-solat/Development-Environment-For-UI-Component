@@ -2,7 +2,7 @@ import { document, fetch, Node } from 'global';
 import dedent from 'ts-dedent';
 import { RenderContext, FetchStoryHtmlType } from './types';
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById('storybook-root');
 
 let fetchStoryHtml: FetchStoryHtmlType = async (url, path, params) => {
   const fetchUrl = new URL(`${url}/${path}`);

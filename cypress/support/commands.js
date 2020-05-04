@@ -46,10 +46,10 @@ Cypress.Commands.add('preview', {}, () => {
       .get(iframe, { timeout: 20000 })
       .should(() => {
         expect(element).not.null;
-        expect(element.querySelector('#root')).not.null;
+        expect(element.querySelector('#storybook-root')).not.null;
       })
       .then(() => {
-        return element.querySelector('#root');
+        return element.querySelector('#storybook-root');
       });
   });
 });

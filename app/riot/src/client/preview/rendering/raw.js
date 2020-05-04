@@ -10,5 +10,5 @@ export default function renderRaw(sourceCode) {
       `${compiler.compile(sourceCode.replace(alreadyCompiledMarker, '').trim(), {})}`
     )
   );
-  mount('root', /tag2\s*\(\s*'([^']+)'/.exec(sourceCode)[1], {});
+  mount('storybook-root', /tag2\s*\(\s*'([^']+)'/.exec(sourceCode)[1], {});
 }

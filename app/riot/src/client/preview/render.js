@@ -11,8 +11,8 @@ export default function renderMain({
   showError = () => {},
 }) {
   showMain();
-  unregister('#root');
-  const rootElement = document.getElementById('root');
+  unregister('#storybook-root');
+  const rootElement = document.getElementById('storybook-root');
   rootElement.innerHTML = '';
   rootElement.dataset.is = 'root';
   const element = storyFn();
