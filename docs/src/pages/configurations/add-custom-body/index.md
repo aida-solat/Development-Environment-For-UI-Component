@@ -17,7 +17,7 @@ Here's an example when using relative sizing in your project (like `rem` or `em`
 </style>
 ```
 
-That's it. Storybook will inject these tags to html body.
+That’s it. Storybook will inject these tags to the html body. It is also possible to use [environment variables](https://storybook.js.org/docs/configurations/env-vars/#usage-in-custom-headbody).
 
 > **Important**
 >

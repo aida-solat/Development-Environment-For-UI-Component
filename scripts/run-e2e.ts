@@ -15,15 +15,22 @@ import * as configs from './run-e2e-config';
 const logger = console;
 
 export interface Parameters {
+  /** E2E configuration name */
   name: string;
+  /** framework version */
   version: string;
+  /** CLI to bootstrap the project */
   generator: string;
+  /** Use storybook framework detection */
   autoDetect?: boolean;
+  /** Pre-build hook */
   preBuildCommand?: string;
   /** When cli complains when folder already exists */
   ensureDir?: boolean;
   /** Dependencies to add before building Storybook */
   additionalDeps?: string[];
+  /** Add typescript dependency and creates a tsconfig.json file */
+  typescript?: boolean;
 }
 
 export interface Options extends Parameters {
@@ -85,7 +92,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name }: Options) => {
   logger.info(`🎨 Initializing Storybook with @storybook/cli`);
   try {
     const type = autoDetect ? '' : `--type ${name}`;
-    await exec(`npx -p @storybook/cli sb init --skip-install --yes ${type}`, { cwd });
+    await exec(`npx -p @storybook/cli sb init --yes ${type}`, { cwd });
   } catch (e) {
     logger.error(`🚨 Storybook initialization failed`);
     throw e;
@@ -130,6 +137,28 @@ const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
     }
   } catch (e) {
     logger.error(`🚨 Dependencies installation failed`);
+    throw e;
+  }
+};
+
+const addTypescript = async ({ cwd }: Options) => {
+  logger.info(`👮🏻 Adding typescript and tsconfig.json`);
+  try {
+    await exec(`yarn add -D typescript@latest`, { cwd });
+    const tsConfig = {
+      compilerOptions: {
+        baseUrl: '.',
+        esModuleInterop: true,
+        jsx: 'preserve',
+        skipLibCheck: true,
+        strict: true,
+      },
+      include: ['src/*'],
+    };
+    const tsConfigJsonPath = path.resolve(cwd, 'tsconfig.json');
+    await writeJSON(tsConfigJsonPath, tsConfig, { encoding: 'utf8', spaces: 2 });
+  } catch (e) {
+    logger.error(`🚨 Creating tsconfig.json failed`);
     throw e;
   }
 };
@@ -187,10 +216,15 @@ const runTests = async ({ name, version, ...rest }: Parameters) => {
     await generate({ ...options, cwd: siblingDir });
     logger.log();
 
-    await initStorybook(options);
+    await setResolutions(options);
     logger.log();
 
-    await setResolutions(options);
+    if (options.typescript) {
+      await addTypescript(options);
+      logger.log();
+    }
+
+    await initStorybook(options);
     logger.log();
 
     await addRequiredDeps(options);
@@ -212,10 +246,12 @@ const runTests = async ({ name, version, ...rest }: Parameters) => {
     }));
   }
 
-  await runCypress(options, 'http://localhost:4000', open);
-  logger.log();
-
-  server.close();
+  try {
+    await runCypress(options, 'http://localhost:4000', open);
+    logger.log();
+  } finally {
+    server.close();
+  }
 };
 
 // Run tests!
@@ -272,13 +308,18 @@ if (frameworkArgs.length > 0) {
 const perform = () => {
   const limit = pLimit(1);
   const narrowedConfigs = Object.values(e2eConfigs);
-  const [a, b] = [+process.env.CIRCLE_NODE_INDEX || 0, +process.env.CIRCLE_NODE_TOTAL || 1];
-  const step = Math.ceil(narrowedConfigs.length / b);
-  const offset = step * a;
+  const nodeIndex = +process.env.CIRCLE_NODE_INDEX || 0;
+  const numberOfNodes = +process.env.CIRCLE_NODE_TOTAL || 1;
 
-  const list = narrowedConfigs.slice().splice(offset, step);
+  const list = narrowedConfigs.filter((_, index) => {
+    return index % numberOfNodes === nodeIndex;
+  });
 
-  logger.info(`📑 Assigning jobs ${list.map((c) => c.name).join(', ')} to node ${a} (on ${b})`);
+  logger.info(
+    `📑 Assigning jobs ${list
+      .map((c) => c.name)
+      .join(', ')} to node ${nodeIndex} (on ${numberOfNodes})`
+  );
 
   return Promise.all(list.map((config) => limit(() => runE2E(config))));
 };

@@ -11,7 +11,7 @@ import {
 import { RenderMainArgs } from './types';
 import { generateKnobsFor } from '.';
 
-const host = document.getElementById('root'); // the root iframe provided by storybook
+const host = document.getElementById('storybook-root'); // the root iframe provided by storybook
 let previousAurelia: Aurelia;
 export default async function render({
   storyFn,
@@ -52,9 +52,9 @@ export default async function render({
   let { template } = element;
   if (element.customElement) {
     const def = CustomElement.getDefinition(element.customElement);
-    template = `<${def.name} ${Object.keys(def.bindables).map(
-      (key) => `${def.bindables[key].attribute}.bind="${def.bindables[key].property}" `
-    )}  ></${def.name}>`;
+    template = `<${def.name} ${Object.keys(def.bindables)
+      .map((key) => `${def.bindables[key].attribute}.bind="${def.bindables[key].property}" `)
+      .join(' ')}  ></${def.name}>`;
     previousAurelia.register(element.customElement);
   }
 
