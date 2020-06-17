@@ -2,12 +2,15 @@
 const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
+const glob = require('glob');
 
 function getCommand(watch) {
   // Compile angular with tsc
   if (process.cwd().includes(path.join('app', 'angular'))) {
     return '';
   }
+
+  const ignored = glob.sync('./src/**/*.@(d|spec|test|stories).@(js|jsx|ts|tsx)');
 
   const babel = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'babel');
 
@@ -16,8 +19,18 @@ function getCommand(watch) {
     '--out-dir ./dist',
     `--config-file ${path.resolve(__dirname, '../../.babelrc.js')}`,
     `--copy-files`,
+    `--no-copy-ignored`,
   ];
 
+  if (ignored && ignored.length) {
+    // the ignore glob doesn't seem to be working at all
+    args.push(
+      `--ignore ${glob
+        .sync('./src/**/*.@(d|spec|test|stories).@(js|jsx|ts|tsx)')
+        .map((n) => `"${n}"`)
+        .join(',')}`
+    );
+  }
   /*
    * angular needs to be compiled with tsc; a compilation with babel is possible but throws
    * runtime errors because of the the babel decorators plugin
