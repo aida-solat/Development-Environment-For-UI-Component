@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
 import { SizeMe } from 'react-sizeme';
@@ -264,7 +264,7 @@ interface PanelProps {
   tests: null | Test[];
 }
 
-const Panel = ({ tests }: PanelProps) => (
+const Panel: FunctionComponent<PanelProps> = ({ tests }) => (
   <ScrollArea vertical>
     {tests ? (
       <Content tests={tests} />

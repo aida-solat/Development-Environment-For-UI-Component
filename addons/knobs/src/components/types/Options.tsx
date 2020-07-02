@@ -1,5 +1,4 @@
-import React, { FunctionComponent, Validator } from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent } from 'react';
 import ReactSelect from 'react-select';
 import { styled } from '@storybook/theming';
 import { KnobControlConfig, KnobControlProps } from './types';
@@ -117,23 +116,6 @@ OptionsType.defaultProps = {
   knob: {} as any,
   display: 'select',
   onChange: (value) => value,
-};
-
-OptionsType.propTypes = {
-  knob: PropTypes.shape({
-    name: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-    options: PropTypes.object,
-  }) as Validator<OptionsTypeProps<any>['knob']>,
-  display: PropTypes.oneOf<OptionsKnobOptionsDisplay>([
-    'radio',
-    'inline-radio',
-    'check',
-    'inline-check',
-    'select',
-    'multi-select',
-  ]) as Validator<OptionsTypeProps<any>['display']>,
-  onChange: PropTypes.func as Validator<OptionsTypeProps<any>['onChange']>,
 };
 
 OptionsType.serialize = serialize;

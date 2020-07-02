@@ -1,5 +1,4 @@
-import React, { Component, ChangeEvent, Validator } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
 import { KnobControlConfig, KnobControlProps } from './types';
 
@@ -53,16 +52,6 @@ export default class CheckboxesType extends Component<CheckboxesTypeProps, Check
     knob: {} as any,
     onChange: (value) => value,
     isInline: false,
-  };
-
-  static propTypes = {
-    knob: PropTypes.shape({
-      name: PropTypes.string,
-      value: PropTypes.array,
-      options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-    }) as Validator<CheckboxesTypeProps['knob']>,
-    onChange: PropTypes.func as Validator<CheckboxesTypeProps['onChange']>,
-    isInline: PropTypes.bool as Validator<CheckboxesTypeProps['isInline']>,
   };
 
   static serialize = (value: CheckboxesTypeKnobValue) => value;

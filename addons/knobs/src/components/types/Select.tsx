@@ -1,5 +1,4 @@
-import React, { FunctionComponent, ChangeEvent, Validator } from 'react';
-import PropTypes from 'prop-types';
+import React, { FunctionComponent, ChangeEvent } from 'react';
 
 import { Form } from '@storybook/components';
 import { KnobControlConfig, KnobControlProps } from './types';
@@ -70,15 +69,6 @@ const SelectType: FunctionComponent<SelectTypeProps> & {
 SelectType.defaultProps = {
   knob: {} as any,
   onChange: (value) => value,
-};
-
-SelectType.propTypes = {
-  knob: PropTypes.shape({
-    name: PropTypes.string,
-    value: PropTypes.any,
-    options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  }) as Validator<SelectTypeProps['knob']>,
-  onChange: PropTypes.func as Validator<SelectTypeProps['onChange']>,
 };
 
 SelectType.serialize = serialize;

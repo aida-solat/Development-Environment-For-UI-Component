@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import { document } from 'global';
 import React, { ReactNode } from 'react';
 

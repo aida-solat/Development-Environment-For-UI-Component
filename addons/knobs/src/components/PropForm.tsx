@@ -1,5 +1,4 @@
-import React, { Component, ComponentType, Validator } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, ComponentType } from 'react';
 
 import { Form } from '@storybook/components';
 import { getKnobControl } from './types';
@@ -20,17 +19,6 @@ export default class PropForm extends Component<PropFormProps> {
     knobs: [] as KnobStoreKnob[],
     onFieldChange: () => {},
     onFieldClick: () => {},
-  };
-
-  static propTypes = {
-    knobs: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        value: PropTypes.any,
-      })
-    ).isRequired as Validator<PropFormProps['knobs']>,
-    onFieldChange: PropTypes.func.isRequired as Validator<PropFormProps['onFieldChange']>,
-    onFieldClick: PropTypes.func.isRequired as Validator<PropFormProps['onFieldClick']>,
   };
 
   makeChangeHandler(name: string, type: string) {
