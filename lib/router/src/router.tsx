@@ -10,6 +10,7 @@ import {
   RouteComponentProps,
   LocationContext,
   NavigateFn,
+  History,
 } from '@reach/router';
 import { ToggleVisibility } from './visibility';
 import { queryFromString, parsePath, getMatch, StoryData } from './utils';
@@ -107,3 +108,4 @@ export { QueryLocation as Location };
 export { Route };
 export { queryNavigate as navigate };
 export { LocationProvider };
+export { History };
