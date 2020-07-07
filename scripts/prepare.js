@@ -18,15 +18,6 @@ function removeDist() {
   shell.rm('-rf', 'dist');
 }
 
-const ignore = [
-  '__mocks__',
-  '__snapshots__',
-  '__testfixtures__',
-  '__tests__',
-  '/tests/',
-  /.+\.test\..+/,
-];
-
 function logError(type, packageJson, errorLogs) {
   log.error(`FAILED (${type}) : ${errorLogs}`);
   log.error(

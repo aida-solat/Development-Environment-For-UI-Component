@@ -10,7 +10,9 @@ function getCommand(watch) {
     return '';
   }
 
-  const ignored = glob.sync('./src/**/*.@(d|spec|test|stories).@(js|jsx|ts|tsx)');
+  const ignored = []
+    .concat(glob.sync('./src/**/*.@(d|spec|test|stories).@(js|jsx|ts|tsx)'))
+    .concat(glob.sync('./src/**/@(test|specs|__tests__|__testfixtures__)/**'));
 
   const babel = path.join(__dirname, '..', '..', 'node_modules', '.bin', 'babel');
 
@@ -24,12 +26,7 @@ function getCommand(watch) {
 
   if (ignored && ignored.length) {
     // the ignore glob doesn't seem to be working at all
-    args.push(
-      `--ignore ${glob
-        .sync('./src/**/*.@(d|spec|test|stories).@(js|jsx|ts|tsx)')
-        .map((n) => `"${n}"`)
-        .join(',')}`
-    );
+    args.push(`--ignore ${ignored.map((n) => `"${n}"`).join(',')}`);
   }
   /*
    * angular needs to be compiled with tsc; a compilation with babel is possible but throws
