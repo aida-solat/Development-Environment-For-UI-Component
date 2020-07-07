@@ -184,7 +184,7 @@ export function copyComponents(framework: SupportedFrameworks, language: Support
     typescript: 'ts',
   };
   const componentsPath = () => {
-    const frameworkPath = `frameworks/${framework}`;
+    const frameworkPath = `../frameworks/${framework}`;
     const languageSpecific = path.resolve(
       __dirname,
       `${frameworkPath}/${languageFolderMapping[language]}`
