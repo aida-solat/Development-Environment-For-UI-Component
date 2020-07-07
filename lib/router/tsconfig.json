@@ -14,5 +14,4 @@
     "src/**/*.mockdata.*",
     "src/**/__testfixtures__/**"
   ]
-
 }
