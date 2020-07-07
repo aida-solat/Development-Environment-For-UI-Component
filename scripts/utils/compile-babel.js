@@ -24,7 +24,7 @@ function getCommand(watch) {
     `--no-copy-ignored`,
   ];
 
-  if (ignored && ignored.length) {
+  if (ignored.length) {
     // the ignore glob doesn't seem to be working at all
     args.push(`--ignore ${ignored.map((n) => `"${n}"`).join(',')}`);
   }
