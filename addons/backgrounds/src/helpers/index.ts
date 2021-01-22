@@ -1,9 +1,14 @@
-import { document } from 'global';
+import { document, window } from 'global';
 import dedent from 'ts-dedent';
 
 import { logger } from '@storybook/client-logger';
 
 import { Background } from '../types';
+
+export const isReduceMotionEnabled = () => {
+  const prefersReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  return prefersReduceMotion.matches;
+};
 
 export const getBackgroundColorByName = (
   currentSelectedValue: string,
