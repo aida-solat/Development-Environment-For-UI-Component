@@ -1,4 +1,5 @@
 module.exports = {
+  logLevel: 'debug',
   addons: [
     '@storybook/addon-docs',
     '@storybook/addon-controls',
@@ -10,4 +11,7 @@ module.exports = {
     '@storybook/addon-storysource',
     '@storybook/addon-viewport',
   ],
+  core: {
+    builder: 'webpack4',
+  },
 };

@@ -1,7 +1,13 @@
+const sveltePreprocess = require('svelte-preprocess');
+
 const path = require('path');
 
 module.exports = {
   stories: ['../src/stories/**/*.stories.*'],
+  logLevel: 'debug',
+  svelteOptions: {
+    preprocess: sveltePreprocess(),
+  },
   addons: [
     '@storybook/addon-storysource',
     '@storybook/addon-actions',
@@ -11,6 +17,7 @@ module.exports = {
         configureJSX: true,
       },
     },
+    '@storybook/addon-controls',
     '@storybook/addon-links',
     '@storybook/addon-knobs',
     '@storybook/addon-backgrounds',
@@ -20,10 +27,13 @@ module.exports = {
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: [/\.stories\.js$/, /index\.js$/],
-      loaders: [require.resolve('@storybook/source-loader')],
+      use: [require.resolve('@storybook/source-loader')],
       include: [path.resolve(__dirname, '../src')],
       enforce: 'pre',
     });
     return config;
+  },
+  core: {
+    builder: 'webpack4',
   },
 };

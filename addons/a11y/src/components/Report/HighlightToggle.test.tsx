@@ -73,7 +73,7 @@ describe('<HighlightToggle />', () => {
       ${['#storybook-root']} | ${['#storybook-root']}                     | ${false}
       ${['#storybook-root']} | ${['#storybook-root', '#storybook-root1']} | ${true}
     `(
-      'should be triggerd with $expected when highlighted is $highlighted and elementsToHighlight is $elementsToHighlight',
+      'should be triggered with $expected when highlighted is $highlighted and elementsToHighlight is $elementsToHighlight',
       ({ highlighted, elementsToHighlight, expected }) => {
         const { getByRole } = render(
           <A11yContext.Provider

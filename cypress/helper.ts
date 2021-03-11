@@ -46,7 +46,7 @@ export const getStorybookPreview = () => {
         expect(element).not.null;
 
         if (element !== null) {
-          expect(element.querySelector('storybook-#root > *')).not.null;
+          expect(element.querySelector('#storybook-root > *')).not.null;
         }
       })
       .then(() => {
