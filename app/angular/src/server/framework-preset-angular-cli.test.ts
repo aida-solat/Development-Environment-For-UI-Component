@@ -372,9 +372,87 @@ describe('framework-preset-angular-cli', () => {
     });
   });
 
-  describe('when is a nx workspace', () => {
+  describe('when is a nx with angular.json', () => {
     beforeEach(() => {
       initMockWorkspace('with-nx');
+    });
+
+    it('should extends webpack base config', async () => {
+      const baseWebpackConfig = newWebpackConfiguration();
+      const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
+
+      expect(webpackFinalConfig).toEqual({
+        ...baseWebpackConfig,
+        entry: [
+          ...(baseWebpackConfig.entry as any[]),
+          `${workspaceRoot}/src/styles.css`,
+          `${workspaceRoot}/src/styles.scss`,
+        ],
+        module: { ...baseWebpackConfig.module, rules: expect.anything() },
+        plugins: expect.anything(),
+        resolve: {
+          ...baseWebpackConfig.resolve,
+          modules: expect.arrayContaining(baseWebpackConfig.resolve.modules),
+          // the base resolve.plugins are not kept 🤷‍♂️
+          plugins: expect.not.arrayContaining(baseWebpackConfig.resolve.plugins),
+        },
+        resolveLoader: expect.anything(),
+      });
+    });
+
+    it('should set webpack "module.rules"', async () => {
+      const baseWebpackConfig = newWebpackConfiguration();
+      const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
+
+      const expectedRules: any = [
+        {
+          oneOf: [
+            {
+              exclude: [`${workspaceRoot}/src/styles.css`, `${workspaceRoot}/src/styles.scss`],
+              use: expect.anything(),
+            },
+            {
+              include: [`${workspaceRoot}/src/styles.css`, `${workspaceRoot}/src/styles.scss`],
+              use: expect.anything(),
+            },
+          ],
+        },
+        { use: expect.anything() },
+      ];
+      expect(webpackFinalConfig.module.rules).toEqual([
+        {
+          test: /\.(?:css)$/i,
+          rules: expectedRules,
+        },
+        {
+          test: /\.(?:scss)$/i,
+          rules: expectedRules,
+        },
+        {
+          test: /\.(?:sass)$/i,
+          rules: expectedRules,
+        },
+        {
+          test: /\.(?:less)$/i,
+          rules: expectedRules,
+        },
+        {
+          test: /\.(?:styl)$/i,
+          rules: expectedRules,
+        },
+        { mimetype: 'text/css', use: expect.anything() },
+        { mimetype: 'text/x-scss', use: expect.anything() },
+        { mimetype: 'text/x-sass', use: expect.anything() },
+        { mimetype: 'text/x-less', use: expect.anything() },
+        { mimetype: 'text/x-stylus', use: expect.anything() },
+        ...baseWebpackConfig.module.rules,
+      ]);
+    });
+  });
+
+  describe('when is a nx with workspace.json', () => {
+    beforeEach(() => {
+      initMockWorkspace('with-nx-workspace');
     });
 
     it('should extends webpack base config', async () => {
